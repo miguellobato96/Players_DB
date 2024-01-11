@@ -1,7 +1,7 @@
 -- Criar a tabela Jogadores
 CREATE TABLE IF NOT EXISTS Jogadores (
-    ID INTEGER PRIMARY KEY,
-    Nome TEXT UNIQUE,
+    ID INTEGER PRIMARY KEY UNIQUE,
+    Nome TEXT,
     Nacionalidade TEXT,
     Idade INTEGER,
     Posicao TEXT,
