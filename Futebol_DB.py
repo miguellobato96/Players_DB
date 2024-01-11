@@ -1,5 +1,5 @@
 import sqlite3
-from Tkinter import *
+from tkinter import *
 
 class GUI:
     def __init__(self, master):
