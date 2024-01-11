@@ -37,7 +37,7 @@ class GUI:
             btn = CTkButton(master, text=text, command=command)
             btn.pack()
 
-        self.textbox = CTkTextbox(master, width=310)
+        self.textbox = CTkTextbox(master, width=600)
         self.textbox.pack()
 
     # Função que serve de base para fazer ".execute('query')"
@@ -67,7 +67,7 @@ class GUI:
 
     # Consulta: Calcular a média de idades dos jogadores por clube
     def consulta_4(self):
-        self.execute_query('SELECT ClubeAtual, AVG(Idade) as MediaIdade FROM Jogadores GROUP BY ClubeAtual')
+        self.execute_query('SELECT ClubeAtual, ROUND(AVG(Idade)) as MediaIdade FROM Jogadores GROUP BY ClubeAtual')
 
     # Consulta: Determinar o clube com o maior número de jogadores não nacionais
     def consulta_5(self):
