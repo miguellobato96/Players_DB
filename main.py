@@ -46,7 +46,8 @@ class GUI:
         self.cursor.execute(query)
         resultado = self.cursor.fetchall()
         for row in resultado:
-            self.textbox.insert(END, row)
+            formatted_row = " | ".join(map(str, row)) + "\n"
+            self.textbox.insert(END, formatted_row)
 
     # Consulta: Todos os jogadores
     def listar_jogadores(self):
