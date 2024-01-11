@@ -1,6 +1,6 @@
 Gestão de Dados de Jogadores de Futebol
 
-Este programa foi criado para gerir uma base de dados de jogadores de futebol. A interface gráfica foi desenvolvida utilizando a biblioteca Tkinter, proporcionando uma interação intuitiva.
+Este programa foi criado para gerir uma base de dados de jogadores de futebol. A interface gráfica foi desenvolvida utilizando a biblioteca CustomTkinter, proporcionando uma interação intuitiva.
 
 Utilização:
 
@@ -12,5 +12,3 @@ Utilização:
 - Catalogar os jogadores por nacionalidade;
 - Calcular a média de idades dos jogadores por clube;
 - Determinar o clube com o maior número de jogadores não nacionais.
-
-3. Interface Gráfica Intuitiva: Desenvolvida com CustomTkinter, proporcionando uma experiência amigável para o utilizador.
