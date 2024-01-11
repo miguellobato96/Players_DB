@@ -13,4 +13,4 @@ Utilização:
 - Calcular a média de idades dos jogadores por clube;
 - Determinar o clube com o maior número de jogadores não nacionais.
 
-3. Interface Gráfica Intuitiva: Desenvolvida com Tkinter, proporcionando uma experiência amigável para o usuário.
+3. Interface Gráfica Intuitiva: Desenvolvida com CustomTkinter, proporcionando uma experiência amigável para o utilizador.
