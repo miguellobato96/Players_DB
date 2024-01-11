@@ -1,7 +1,7 @@
 -- Criar a tabela Jogadores
 CREATE TABLE IF NOT EXISTS Jogadores (
     ID INTEGER PRIMARY KEY,
-    Nome TEXT,
+    Nome TEXT UNIQUE,
     Nacionalidade TEXT,
     Idade INTEGER,
     Posicao TEXT,
@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS Jogadores (
 );
 
 -- Inserir jogadores
-INSERT INTO Jogadores (Nome, Nacionalidade, Idade, Posicao, ClubeAtual)
+INSERT OR IGNORE INTO Jogadores (Nome, Nacionalidade, Idade, Posicao, ClubeAtual)
 VALUES 
     -- Los Pollos Hermanos
     ('Walter White', 'Estados Unidos', 52, 'Guarda-Redes', 'Los Pollos Hermanos'),
