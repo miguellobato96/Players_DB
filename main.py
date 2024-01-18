@@ -6,6 +6,10 @@ class GUI:
         self.master = master
         self.master.title("Gestão de Dados de Jogadores de Futebol")
 
+        # Definir janela
+        self.master.geometry("800x600")
+        self.master.resizable(False, False)
+
         # Conectar à base de dados
         self.conn = sqlite3.connect('Jogadores.db')
         self.cursor = self.conn.cursor()
