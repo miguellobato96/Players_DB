@@ -105,13 +105,17 @@ class GUI:
         nome_entry = CTkEntry(new_window)
         nome_entry.pack()
 
+        CTkLabel(new_window, text="Nacionalidade:").pack()
+        nacionalidade_entry = CTkEntry(new_window)
+        nacionalidade_entry.pack()
+
         CTkLabel(new_window, text="Idade:").pack()
         idade_entry = CTkEntry(new_window)
         idade_entry.pack()
 
-        CTkLabel(new_window, text="Nacionalidade:").pack()
-        nacionalidade_entry = CTkEntry(new_window)
-        nacionalidade_entry.pack()
+        CTkLabel(new_window, text="Posição:").pack()
+        pos_entry = CTkEntry(new_window)
+        pos_entry.pack()
 
         CTkLabel(new_window, text="Clube Atual:").pack()
         clube_atual_entry = CTkEntry(new_window)
@@ -119,7 +123,7 @@ class GUI:
 
         # Criar botão para submeter os dados
         submit_button = CTkButton(new_window, text="Adicionar Jogador", command=lambda: self.insert_jogador(
-            nome_entry.get(), idade_entry.get(), nacionalidade_entry.get(), clube_atual_entry.get()))
+            nome_entry.get(), idade_entry.get(), pos_entry.get(), nacionalidade_entry.get(), clube_atual_entry.get()))
         submit_button.pack()
 
     # Editar informações de um jogador
