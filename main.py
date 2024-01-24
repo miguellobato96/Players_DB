@@ -160,7 +160,7 @@ class GUI:
 
     # Eliminar um jogador
     def eliminar_jogador(self):
-        jogador_id = CTkInputDialog(text="Eliminar Jogador", title="ID do Jogador a ser eliminado:")
+        jogador_id = CTkInputDialog(text="ID do Jogador a ser eliminado:", title="Eliminar Jogador")
         if jogador_id:
             delete_query = f"DELETE FROM Jogadores WHERE ID={jogador_id}"
             self.execute_query(delete_query)
