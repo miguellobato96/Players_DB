@@ -126,7 +126,7 @@ class GUI:
             nome_entry.get(), idade_entry.get(), pos_entry.get(), nacionalidade_entry.get(), clube_atual_entry.get()))
         submit_button.pack()
 
-    # Editar informações de um jogador
+   # Editar informações de um jogador
     def editar_jogador(self):
         # Criar nova janela
         new_window = CTkToplevel(self.master)
@@ -137,26 +137,25 @@ class GUI:
         id_entry = CTkEntry(new_window)
         id_entry.pack()
 
-        CTkLabel(new_window, text="Nome:").pack()
-        nome_entry = CTkEntry(new_window)
-        nome_entry.pack()
+        CTkLabel(new_window, text="Atributo a modificar (Nome, Idade, Nacionalidade, Clube Atual):").pack()
+        atributo_entry = CTkEntry(new_window)
+        atributo_entry.pack()
 
-        CTkLabel(new_window, text="Idade:").pack()
-        idade_entry = CTkEntry(new_window)
-        idade_entry.pack()
-
-        CTkLabel(new_window, text="Nacionalidade:").pack()
-        nacionalidade_entry = CTkEntry(new_window)
-        nacionalidade_entry.pack()
-
-        CTkLabel(new_window, text="Clube Atual:").pack()
-        clube_atual_entry = CTkEntry(new_window)
-        clube_atual_entry.pack()
+        CTkLabel(new_window, text="Novo valor:").pack()
+        valor_entry = CTkEntry(new_window)
+        valor_entry.pack()
 
         # Criar botão para submeter os dados
-        submit_button = CTkButton(new_window, text="Editar Jogador", command=lambda: self.update_jogador(
-            id_entry.get(), nome_entry.get(), idade_entry.get(), nacionalidade_entry.get(), clube_atual_entry.get()))
+        submit_button = CTkButton(new_window, text="Editar Jogador", 
+                                command=lambda: self.update_jogador(id_entry.get(), atributo_entry.get(), valor_entry.get(), new_window))
         submit_button.pack()
+
+    def update_jogador(self, jogador_id, atributo, valor, window):
+        if jogador_id and atributo and valor:
+            jogador_id = int(jogador_id)
+            update_query = f"UPDATE Jogadores SET {atributo}='{valor}' WHERE ID={jogador_id}"
+            self.execute_query(update_query)
+            window.destroy()
 
     # Eliminar um jogador
     def eliminar_jogador(self):
