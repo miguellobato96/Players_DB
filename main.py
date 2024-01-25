@@ -160,10 +160,22 @@ class GUI:
 
     # Eliminar um jogador
     def eliminar_jogador(self):
-        jogador_id = CTkInputDialog(text="ID do Jogador a ser eliminado:", title="Eliminar Jogador")
-        if jogador_id:
-            delete_query = f"DELETE FROM Jogadores WHERE ID={jogador_id}"
-            self.execute_query(delete_query)
+        # Criar nova janela
+        new_window = CTkToplevel(self.master)
+        new_window.title("Eliminar Jogador")
+
+        # Criar inputs
+        CTkLabel(new_window, text="ID do Jogador:").pack()
+        id_entry = CTkEntry(new_window)
+        id_entry.pack()
+
+        # Criar botão para submeter os dados
+        submit_button = CTkButton(new_window, text="Eliminar Jogador", 
+                                command=lambda: (
+                                    self.execute_query(f"DELETE FROM Jogadores WHERE ID={int(id_entry.get())}"),
+                                    new_window.destroy()
+                                ))
+        submit_button.pack()
 
     # Query para pesquisa avançada
     def execute_pesquisa_avancada(self, idade, nacionalidade, clube_atual):
