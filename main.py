@@ -100,7 +100,7 @@ class GUI:
         new_window = CTkToplevel(self.master)
         new_window.title("Adicionar Jogador")
 
-        # Criar campos de entrada
+        # Criar inputs
         CTkLabel(new_window, text="Nome:").pack()
         nome_entry = CTkEntry(new_window)
         nome_entry.pack()
@@ -132,7 +132,7 @@ class GUI:
         new_window = CTkToplevel(self.master)
         new_window.title("Editar Jogador")
 
-        # Criar campos de entrada
+        # Criar inputs
         CTkLabel(new_window, text="ID do Jogador:").pack()
         id_entry = CTkEntry(new_window)
         id_entry.pack()
@@ -200,10 +200,19 @@ class GUI:
         submit_button.pack()
 
     # Inserir jogador na base de dados
-    def insert_jogador(self, nome, idade, nacionalidade, clube_atual):
-        if nome and idade and nacionalidade and clube_atual:
-            query = f"INSERT INTO Jogadores (Nome, Idade, Nacionalidade, ClubeAtual) VALUES ('{nome}', {idade}, '{nacionalidade}', '{clube_atual}')"
+    def insert_jogador(self, nome, idade, posicao, nacionalidade, clube_atual):
+        if nome and idade and posicao and nacionalidade and clube_atual:
+            query = f"INSERT INTO Jogadores (Nome, Idade, Posicao, Nacionalidade, ClubeAtual) VALUES ('{nome}', {idade}, '{posicao}', '{nacionalidade}', '{clube_atual}')"
             self.execute_query(query)
+
+    # Atualizar lista de jogadores
+    def atualizar_lista(self):
+        self.lista.delete(0, END)
+        
+        jogadores = self.execute_query("SELECT * FROM Jogadores")
+
+        for jogador in jogadores:
+            self.lista.insert(END, jogador)
 
 if __name__ == "__main__":
     root = CTk()
