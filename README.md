@@ -1,14 +1,14 @@
-Gestão de Dados de Jogadores de Futebol
+Football Player Data Management
 
-Este programa foi criado para gerir uma base de dados de jogadores de futebol. A interface gráfica foi desenvolvida utilizando a biblioteca CustomTkinter, proporcionando uma interação intuitiva.
+This program was created to manage a football player database. The graphical interface was developed using the CustomTkinter library, providing an intuitive interaction.
 
-Utilização:
+Usage:
 
-1. Criação da Base de Dados: Permite criar a base de dados "Jogadores.db" e a tabela "Jogadores" com informações como ID, Nome, Nacionalidade, Idade, Posição e Clube Atual.
+1. Database Creation: Allows creating the "Players.db" database and the "Players" table with information such as ID, Name, Nationality, Age, Position, and Current Club.
 
-2. Consultas SQL Integradas:
-- Listar todos os jogadores com idade superior a 30 anos;
-- Identificar o jogador mais jovem na base de dados;
-- Catalogar os jogadores por nacionalidade;
-- Calcular a média de idades dos jogadores por clube;
-- Determinar o clube com o maior número de jogadores não nacionais.
+2. Integrated SQL Queries:
+- List all players over 30 years old;
+- Identify the youngest player in the database;
+- Catalog players by nationality;
+- Calculate the average age of players by club;
+- Determine the club with the highest number of non-national players.
