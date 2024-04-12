@@ -3,227 +3,227 @@ from customtkinter import *
 
 class GUI:
     def __init__(self, master):
-        # Definir tema
+        # Set theme
         set_appearance_mode("dark")
 
-        # Definir título
+        # Set title
         self.master = master
-        self.master.title("Gestão de Dados de Jogadores de Futebol")
+        self.master.title("Football Player Data Management")
 
-        # Definir janela
+        # Set window
         self.master.geometry("800x600")
         self.master.resizable(False, False)
 
-        # Conectar à base de dados
-        self.conn = sqlite3.connect('Jogadores.db')
+        # Connect to the database
+        self.conn = sqlite3.connect('Players.db')
         self.cursor = self.conn.cursor()
 
-        # Ler as queries do arquivo
+        # Read queries from file
         with open('queries.sql', 'r', encoding='utf-8') as file:
             queries = file.read()
 
-        # Executar as queries
+        # Execute queries
         self.cursor.executescript(queries)
         self.conn.commit()
 
-        # Criar widgets
-        self.label = CTkLabel(master, text="Gestão de Jogadores de Futebol")
+        # Create widgets
+        self.label = CTkLabel(master, text="Football Player Management")
         self.label.pack()
 
-        # Criar dicionário com cada button e valor correspondente (text & command)
+        # Create dictionary with each button and corresponding value (text & command)
         self.buttons = {
-            "Listar Jogadores": self.listar_jogadores,
-            "Jogadores com idade > 30": self.consulta_1,
-            "Jogador mais jovem": self.consulta_2,
-            "Catalogar por Nacionalidade": self.consulta_3,
-            "Média de Idades por Clube": self.consulta_4,
-            "Clube com o maior nº de jogadores não nacionais": self.consulta_5,
-            "Adicionar Novo Jogador": self.adicionar_jogador,
-            "Editar Jogador": self.editar_jogador,
-            "Eliminar Jogador": self.eliminar_jogador,
-            "Pesquisa Avançada": self.pesquisa_avancada
+            "List Players": self.list_players,
+            "Players over 30": self.query_1,
+            "Youngest Player": self.query_2,
+            "Catalog Players by Nationality": self.query_3,
+            "Average Ages by Club": self.query_4,
+            "Club with Most Non-National Players": self.query_5,
+            "Add New Player": self.add_player,
+            "Edit Player": self.edit_player,
+            "Delete Player": self.delete_player,
+            "Advanced Search": self.advanced_search
         }
 
-        # Criar buttons de forma dinâmica, utilizando o dicionário anterior
+        # Create buttons dynamically using the previous dictionary
         for text, command in self.buttons.items():
             btn = CTkButton(master, text=text, command=command)
             btn.pack()
         
-        # Criar textbox
+        # Create textbox
         self.textbox = CTkTextbox(master, width=600)
         self.textbox.pack()
 
-    # Função que serve de base para fazer ".execute('query')"
+    # Function serving as a base to execute ".execute('query')"
     def execute_query(self, query):
         self.textbox.delete(1.0, END)
         self.cursor.execute(query)
-        resultado = self.cursor.fetchall()
-        for row in resultado:
+        result = self.cursor.fetchall()
+        for row in result:
             formatted_row = " | ".join(map(str, row)) + "\n"
             self.textbox.insert(END, formatted_row)
 
-    # Consulta: Todos os jogadores
-    def listar_jogadores(self):
-        self.execute_query('SELECT * FROM Jogadores')
+    # Query: All players
+    def list_players(self):
+        self.execute_query('SELECT * FROM Players')
 
-    # Consulta: Listar jogadores com idade superior a 30 anos
-    def consulta_1(self):
-        self.execute_query('SELECT * FROM Jogadores WHERE Idade > 30')
+    # Query: List players over 30 years old
+    def query_1(self):
+        self.execute_query('SELECT * FROM Players WHERE Age > 30')
 
-    # Consulta: Identificar o jogador mais jovem
-    def consulta_2(self):
-        self.execute_query('SELECT * FROM Jogadores ORDER BY Idade ASC LIMIT 1')
+    # Query: Identify the youngest player
+    def query_2(self):
+        self.execute_query('SELECT * FROM Players ORDER BY Age ASC LIMIT 1')
 
-    # Consulta: Catalogar jogadores por nacionalidade
-    def consulta_3(self):
-        self.execute_query('SELECT Nacionalidade, COUNT(*) FROM Jogadores GROUP BY Nacionalidade')
+    # Query: Catalog players by nationality
+    def query_3(self):
+        self.execute_query('SELECT Nationality, COUNT(*) FROM Players GROUP BY Nationality')
 
-    # Consulta: Calcular a média de idades dos jogadores por clube
-    def consulta_4(self):
-        self.execute_query('SELECT ClubeAtual, ROUND(AVG(Idade)) as MediaIdade FROM Jogadores GROUP BY ClubeAtual')
+    # Query: Calculate the average age of players by club
+    def query_4(self):
+        self.execute_query('SELECT CurrentClub, ROUND(AVG(Age)) as AvgAge FROM Players GROUP BY CurrentClub')
 
-    # Consulta: Determinar o clube com o maior número de jogadores não nacionais
-    def consulta_5(self):
+    # Query: Determine the club with the highest number of non-national players
+    def query_5(self):
         query_max_not_national = '''
-        SELECT ClubeAtual, COUNT(*) as NumJogadoresNaoNacionais
-        FROM Jogadores
-        WHERE Nacionalidade != 'Portugal'
-        GROUP BY ClubeAtual
-        ORDER BY NumJogadoresNaoNacionais DESC
+        SELECT CurrentClub, COUNT(*) as NumNonNationalPlayers
+        FROM Players
+        WHERE Nationality != 'Portugal'
+        GROUP BY CurrentClub
+        ORDER BY NumNonNationalPlayers DESC
         LIMIT 1
         '''
         self.execute_query(query_max_not_national)
 
-    # Adicionar um novo jogador
-    def adicionar_jogador(self):
-        # Criar nova janela
+    # Add a new player
+    def add_player(self):
+        # Create new window
         new_window = CTkToplevel(self.master)
-        new_window.title("Adicionar Jogador")
+        new_window.title("Add Player")
 
-        # Criar inputs
-        CTkLabel(new_window, text="Nome:").pack()
-        nome_entry = CTkEntry(new_window)
-        nome_entry.pack()
+        # Create inputs
+        CTkLabel(new_window, text="Name:").pack()
+        name_entry = CTkEntry(new_window)
+        name_entry.pack()
 
-        CTkLabel(new_window, text="Nacionalidade:").pack()
-        nacionalidade_entry = CTkEntry(new_window)
-        nacionalidade_entry.pack()
+        CTkLabel(new_window, text="Nationality:").pack()
+        nationality_entry = CTkEntry(new_window)
+        nationality_entry.pack()
 
-        CTkLabel(new_window, text="Idade:").pack()
-        idade_entry = CTkEntry(new_window)
-        idade_entry.pack()
+        CTkLabel(new_window, text="Age:").pack()
+        age_entry = CTkEntry(new_window)
+        age_entry.pack()
 
-        CTkLabel(new_window, text="Posição:").pack()
-        pos_entry = CTkEntry(new_window)
-        pos_entry.pack()
+        CTkLabel(new_window, text="Position:").pack()
+        position_entry = CTkEntry(new_window)
+        position_entry.pack()
 
-        CTkLabel(new_window, text="Clube Atual:").pack()
-        clube_atual_entry = CTkEntry(new_window)
-        clube_atual_entry.pack()
+        CTkLabel(new_window, text="Current Club:").pack()
+        current_club_entry = CTkEntry(new_window)
+        current_club_entry.pack()
 
-        # Criar botão para submeter os dados
-        submit_button = CTkButton(new_window, text="Adicionar Jogador", command=lambda: self.insert_jogador(
-            nome_entry.get(), idade_entry.get(), pos_entry.get(), nacionalidade_entry.get(), clube_atual_entry.get()))
+        # Create button to submit data
+        submit_button = CTkButton(new_window, text="Add Player", command=lambda: self.insert_player(
+            name_entry.get(), age_entry.get(), position_entry.get(), nationality_entry.get(), current_club_entry.get()))
         submit_button.pack()
 
-   # Editar informações de um jogador
-    def editar_jogador(self):
-        # Criar nova janela
+   # Edit player information
+    def edit_player(self):
+        # Create new window
         new_window = CTkToplevel(self.master)
-        new_window.title("Editar Jogador")
+        new_window.title("Edit Player")
 
-        # Criar inputs
-        CTkLabel(new_window, text="ID do Jogador:").pack()
+        # Create inputs
+        CTkLabel(new_window, text="Player ID:").pack()
         id_entry = CTkEntry(new_window)
         id_entry.pack()
 
-        CTkLabel(new_window, text="Atributo a modificar (Nome, Idade, Nacionalidade, Clube Atual):").pack()
-        atributo_entry = CTkEntry(new_window)
-        atributo_entry.pack()
+        CTkLabel(new_window, text="Attribute to modify (Name, Age, Nationality, Current Club):").pack()
+        attribute_entry = CTkEntry(new_window)
+        attribute_entry.pack()
 
-        CTkLabel(new_window, text="Novo valor:").pack()
-        valor_entry = CTkEntry(new_window)
-        valor_entry.pack()
+        CTkLabel(new_window, text="New value:").pack()
+        value_entry = CTkEntry(new_window)
+        value_entry.pack()
 
-        # Criar botão para submeter os dados
-        submit_button = CTkButton(new_window, text="Editar Jogador", 
-                                command=lambda: self.update_jogador(id_entry.get(), atributo_entry.get(), valor_entry.get(), new_window))
+        # Create button to submit data
+        submit_button = CTkButton(new_window, text="Edit Player", 
+                                command=lambda: self.update_player(id_entry.get(), attribute_entry.get(), value_entry.get(), new_window))
         submit_button.pack()
 
-    def update_jogador(self, jogador_id, atributo, valor, window):
-        if jogador_id and atributo and valor:
-            jogador_id = int(jogador_id)
-            update_query = f"UPDATE Jogadores SET {atributo}='{valor}' WHERE ID={jogador_id}"
+    def update_player(self, player_id, attribute, value, window):
+        if player_id and attribute and value:
+            player_id = int(player_id)
+            update_query = f"UPDATE Players SET {attribute}='{value}' WHERE ID={player_id}"
             self.execute_query(update_query)
             window.destroy()
 
-    # Eliminar um jogador
-    def eliminar_jogador(self):
-        # Criar nova janela
+    # Delete a player
+    def delete_player(self):
+        # Create new window
         new_window = CTkToplevel(self.master)
-        new_window.title("Eliminar Jogador")
+        new_window.title("Delete Player")
 
-        # Criar inputs
-        CTkLabel(new_window, text="ID do Jogador:").pack()
+        # Create inputs
+        CTkLabel(new_window, text="Player ID:").pack()
         id_entry = CTkEntry(new_window)
         id_entry.pack()
 
-        # Criar botão para submeter os dados
-        submit_button = CTkButton(new_window, text="Eliminar Jogador", 
+        # Create button to submit data
+        submit_button = CTkButton(new_window, text="Delete Player", 
                                 command=lambda: (
-                                    self.execute_query(f"DELETE FROM Jogadores WHERE ID={int(id_entry.get())}"),
+                                    self.execute_query(f"DELETE FROM Players WHERE ID={int(id_entry.get())}"),
                                     new_window.destroy()
                                 ))
         submit_button.pack()
 
-    # Query para pesquisa avançada
-    def execute_pesquisa_avancada(self, idade, nacionalidade, clube_atual):
-        pesquisa_avancada_query = f'''
-        SELECT * FROM Jogadores
-        WHERE Idade LIKE '%{idade}%'
-        AND ClubeAtual LIKE '%{clube_atual}%'
-        AND Nacionalidade LIKE '%{nacionalidade}%'
+    # Query for advanced search
+    def execute_advanced_search(self, age, nationality, current_club):
+        advanced_search_query = f'''
+        SELECT * FROM Players
+        WHERE Age LIKE '%{age}%'
+        AND CurrentClub LIKE '%{current_club}%'
+        AND Nationality LIKE '%{nationality}%'
         '''
-        self.execute_query(pesquisa_avancada_query)
+        self.execute_query(advanced_search_query)
 
-    # Pesquisa avançada
-    def pesquisa_avancada(self):
-        # Criar nova janela
+    # Advanced search
+    def advanced_search(self):
+        # Create new window
         new_window = CTkToplevel(self.master)
-        new_window.title("Pesquisa Avançada")
+        new_window.title("Advanced Search")
 
-        # Criar inputs
-        CTkLabel(new_window, text="Idade:").pack()
-        idade_entry = CTkEntry(new_window)
-        idade_entry.pack()
+        # Create inputs
+        CTkLabel(new_window, text="Age:").pack()
+        age_entry = CTkEntry(new_window)
+        age_entry.pack()
 
-        CTkLabel(new_window, text="Nacionalidade:").pack()
-        nacionalidade_entry = CTkEntry(new_window)
-        nacionalidade_entry.pack()
+        CTkLabel(new_window, text="Nationality:").pack()
+        nationality_entry = CTkEntry(new_window)
+        nationality_entry.pack()
 
-        CTkLabel(new_window, text="Clube Atual:").pack()
-        clube_atual_entry = CTkEntry(new_window)
-        clube_atual_entry.pack()
+        CTkLabel(new_window, text="Current Club:").pack()
+        current_club_entry = CTkEntry(new_window)
+        current_club_entry.pack()
 
-        # Criar botão para submeter os dados
-        submit_button = CTkButton(new_window, text="Pesquisar", command=lambda: 
-            self.execute_pesquisa_avancada(idade_entry.get(), nacionalidade_entry.get(), clube_atual_entry.get()))
+        # Create button to submit data
+        submit_button = CTkButton(new_window, text="Search", command=lambda: 
+            self.execute_advanced_search(age_entry.get(), nationality_entry.get(), current_club_entry.get()))
         submit_button.pack()
 
-    # Inserir jogador na base de dados
-    def insert_jogador(self, nome, idade, posicao, nacionalidade, clube_atual):
-        if nome and idade and posicao and nacionalidade and clube_atual:
-            query = f"INSERT INTO Jogadores (Nome, Idade, Posicao, Nacionalidade, ClubeAtual) VALUES ('{nome}', {idade}, '{posicao}', '{nacionalidade}', '{clube_atual}')"
+    # Insert player into database
+    def insert_player(self, name, age, position, nationality, current_club):
+        if name and age and position and nationality and current_club:
+            query = f"INSERT INTO Players (Name, Age, Position, Nationality, CurrentClub) VALUES ('{name}', {age}, '{position}', '{nationality}', '{current_club}')"
             self.execute_query(query)
 
-    # Atualizar lista de jogadores
-    def atualizar_lista(self):
-        self.lista.delete(0, END)
+    # Update player list
+    def update_list(self):
+        self.list.delete(0, END)
         
-        jogadores = self.execute_query("SELECT * FROM Jogadores")
+        players = self.execute_query("SELECT * FROM Players")
 
-        for jogador in jogadores:
-            self.lista.insert(END, jogador)
+        for player in players:
+            self.list.insert(END, player)
 
 if __name__ == "__main__":
     root = CTk()
